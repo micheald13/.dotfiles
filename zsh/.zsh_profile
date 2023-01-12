@@ -6,4 +6,6 @@ addToPathFront() {
     fi
 }
 
+addToPathFront $HOME/.local/scripts
+
 bindkey -s ^f "~/dotfile_testing/tmux-sessionizer.sh\n"
