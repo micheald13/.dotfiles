@@ -7,5 +7,9 @@ addToPathFront() {
 }
 
 addToPathFront $HOME/.local/scripts
-
+addToPathFront $HOME/.local/bin
 bindkey -s ^f "tmux-sessionizer\n"
+
+
+# Aliases go here
+alias ls="exa --icons --color=always"
