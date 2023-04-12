@@ -7,5 +7,11 @@ if [[ -z $DOTFILES ]]; then
     DOTFILES=$HOME/.dotfiles
 fi
 
+#Check if we are using the default .zshrc file
+if ! [[ -L "$HOME/.zshrc" ]]; then
+	echo "Deleting default .zshrc file"
+	rm $HOME/.zshrc
+fi
+
 STOW_FOLDERS=$STOW_FOLDERS DOTFILES=$DOTFILES $DOTFILES/install
 
