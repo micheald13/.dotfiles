@@ -109,4 +109,3 @@ if [ -z "$RUNNING" ]; then
     disown
 fi
 
-source $HOME/.cargo/env 

@@ -6,10 +6,21 @@ addToPathFront() {
     fi
 }
 
+# Config the paths and enviroments
 addToPathFront $HOME/.local/scripts
 addToPathFront $HOME/.local/bin
-bindkey -s ^f "tmux-sessionizer\n"
+if [ -d "$HOME/flutter/bin" ]; then
+    addToPathFront $HOME/flutter/bin
+fi
+if [ -d "$HOME/.cargo/env" ]; then
+    source $HOME/.cargo/env 
+fi
 
+# Keybindings
+bindkey -s ^f "tmux-sessionizer\n"
 
 # Aliases go here
 alias ls="exa --icons --color=always"
+alias lt="exa -T --icons --color=always"
+alias vim="nvim.appimage"
+alias nvim="nvim.appimage"
