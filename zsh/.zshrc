@@ -102,10 +102,21 @@ source $ZSH/oh-my-zsh.sh
 source ~/.zsh_profile
 eval "$(starship init zsh)"
 
-# Start Docker daemon automatically when logging in if not running.
-RUNNING=`ps aux | grep dockerd | grep -v grep`
-if [ -z "$RUNNING" ]; then
-    sudo dockerd > /dev/null 2>&1 &
-    disown
+# Start Docker daemon automatically when logging in if not running in WSL
+if [[ $(grep Microsoft /proc/version) ]]; then
+    RUNNING=`ps aux | grep dockerd | grep -v grep`
+    if [ -z "$RUNNING" ]; then
+        sudo dockerd > /dev/null 2>&1 &
+        disown
+    fi
 fi
 
+export NVM_DIR="$HOME/.nvm"
+if [[ -d $NVM_DIR ]] then
+    [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+    [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+fi
+
+if [[ -d $HOME/.cargo ]]; then
+    source $HOME/.cargo/env 
+fi
