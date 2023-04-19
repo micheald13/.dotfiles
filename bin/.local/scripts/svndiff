@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # svndiff -- svn diff with vimdiff.
 # http://erik.thauvin.net/blog/posts/1024/subversion-diff-with-vim
@@ -34,7 +34,15 @@ if [ $# -lt 1 ]; then
     exit;
 fi
 
-filename=$1
+#Check if a dir or a file name was passed
+if [[ -d $1 ]]; then
+    line=$(svn status $1 | grep "M " | fzf )
+    list=($(echo $line | xargs))
+    filename=${list[1]}
+else
+    filename=$1
+fi
+
 pid=$$
 TEMP=/tmp/tmp.$pid.`basename $filename`
 pv=
