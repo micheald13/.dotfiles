@@ -6,6 +6,8 @@ $directory\
 [](fg:#DA627D bg:#FCA17D)\
 $git_branch\
 $git_status\
+${custom.svn_localrev}\
+${custom.svn_status}\
 [](fg:#FCA17D bg:#2CDA9D)\
 ${custom.local_changes}\
 [](fg:#2CDA9D bg:#86BBD8)\
@@ -51,10 +53,17 @@ truncation_symbol = "…/"
 # Here is how you can shorten some long paths by text replacement
 # similar to mapped_locations in Oh My Posh:
 [directory.substitutions]
+"Buildroot_emeraldpe_decoder/buildroot" = "PE_RX"
+"Buildroot_emeraldpe_encoder/buildroot" = "PE_TX"
+"Buildroot_emerald2k_decoder/buildroot" = "2K_RX"
+"Buildroot_emerald2k_encoder/buildroot" = "2K_TX"
+"Buildroot_emerald_decoder/buildroot" = "4K_RX"
+"Buildroot_emerald_encoder/buildroot" = "4K_TX"
 "Documents" = " "
 "Downloads" = " "
 "Music" = " "
 "Pictures" = " "
+"Emerald_sources/branches/" = ""
 # Keep in mind that the order matters. For example:
 # "Important Documents" = "  "
 # will not be replaced, because "Documents" was already substituted before.
@@ -62,12 +71,28 @@ truncation_symbol = "…/"
 # "Important  " = "  "
 
 [custom.local_changes]
-description = "Shows the docker symbol if the current directory has Dockerfile or docker-compose.yml files"
+description = "Flags if the local.mk file has any changes"
 symbol = "local.mk!"
 when = "if [[ -n $(tail local.mk -n+4 | awk '!/#/ {print}') ]]; then exit 0; else exit 1; fi"
-#style = "fg:#9A348E bg:#2CDA9D"
 style = "bg:#2CDA9D"
 format = '[$symbol]($style)'
+
+[custom.svn_localrev]
+description = "Show SVN last-changed-revision for the current working directory"
+when = "svn --non-interactive info >/dev/null 2>&1"
+command = "svn --non-interactive info --no-newline --show-item last-changed-revision"
+symbol = "r"
+style = "bg:#FCA17D"
+format = '[[ $symbol$output](bg:#FCA17D)]($style)'
+# format = '[$symbol$output]($style)'
+ 
+[custom.svn_status]
+description = "Show a summary of SVN status flags for the current working directory when visiting a WC"
+when = "svn --non-interactive info >/dev/null 2>&1"
+command = "~/.local/scripts/starship-svn.sh"
+symbol = ""
+style = "bg:#FCA17D"
+format = '[[ $symbol$output](bg:#FCA17D)]($style)'
 
 [c]
 symbol = " "
